@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mall Food Directory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="kiosk-header">
+        <h1>Mall Food Directory</h1>
+        <p>Touch a brand to view their menu and order</p>
+    </header>
+
+    <main class="grid-container">
+        <div class="card" onclick="openStore('https://www.mcdonalds.com')">
+            <img src="https://logo.clearbit.com/mcdonalds.com" alt="McDonald's" onerror="this.src='https://via.placeholder.com/150?text=McDonalds'">
+            <h3>McDonald's</h3>
+        </div>
+
+        <div class="card" onclick="openStore('https://www.subway.com')">
+            <img src="https://logo.clearbit.com/subway.com" alt="Subway" onerror="this.src='https://via.placeholder.com/150?text=Subway'">
+            <h3>Subway</h3>
+        </div>
+
+        <div class="card" onclick="openStore('https://www.starbucks.com')">
+            <img src="https://logo.clearbit.com/starbucks.com" alt="Starbucks" onerror="this.src='https://via.placeholder.com/150?text=Starbucks'">
+            <h3>Starbucks</h3>
+        </div>
+
+        <div class="card" onclick="openStore('https://www.dominos.com')">
+            <img src="https://logo.clearbit.com/dominos.com" alt="Domino's" onerror="this.src='https://via.placeholder.com/150?text=Dominos'">
+            <h3>Domino's</h3>
+        </div>
+    </main>
+
+    <div id="kiosk-overlay" class="overlay">
+        <button class="close-btn" onclick="closeStore()">Back to Directory</button>
+        <iframe id="store-frame" src=""></iframe>
+    </div>
+
+    <script>
+        // Check internet connection on startup and every 5 seconds
+        function checkConnection() {
+            if (!navigator.onLine) {
+                window.location.href = "error.html";
+            }
+        }
+        window.addEventListener('offline', () => window.location.href = "error.html");
+        setInterval(checkConnection, 5000);
+
+        // Open store website in iframe
+        function openStore(url) {
+            if (!navigator.onLine) {
+                window.location.href = "error.html";
+                return;
+            }
+            document.getElementById('store-frame').src = url;
+            document.getElementById('kiosk-overlay').classList.add('active');
+        }
+
+        // Close iframe and return to grid
+        function closeStore() {
+            document.getElementById('kiosk-overlay').classList.remove('active');
+            document.getElementById('store-frame').src = "";
+        }
+    </script>
+</body>
+</html>
