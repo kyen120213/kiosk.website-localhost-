@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosk Offline</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            user-select: none; /* Prevents users from highlighting text on touch screen */
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .error-card {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid #e1e8ed;
+        }
+
+        .icon-container {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #666666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .status-msg {
+            font-weight: 600;
+            color: #d32f2f; /* Red emphasis for IT support */
+            margin-bottom: 30px;
+        }
+
+        .retry-btn {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .retry-btn:active {
+            background-color: #0056b3;
+            transform: scale(0.98);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="error-card">
+        <div class="icon-container">⚠️</div>
+        <h1>Connection Lost</h1>
+        <p>This kiosk is temporarily unable to connect to the network.</p>
+        <p class="status-msg">IT Support has been automatically contacted.</p>
+        
+        <button class="retry-btn" onclick="checkConnection()">Retry Connection</button>
+    </div>
+
+    <script>
+        // Check if the internet connection is back
+        function checkConnection() {
+            if (navigator.onLine) {
+                // If back online, redirect back to your live Vercel kiosk website
+                window.location.href = "https://kiosk-website-localhost.vercel.app";
+            } else {
+                // Visual feedback that the system is trying but still offline
+                const btn = document.querySelector('.retry-btn');
+                const originalText = btn.innerText;
+                btn.innerText = "Checking...";
+                btn.style.backgroundColor = "#888888";
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.backgroundColor = "#007aff";
+                    alert("Still offline. IT Support is on their way!");
+                }, 1000);
+            }
+        }
+
+        // Keep checking in the background and auto-load the live site if connection returns
+        window.addEventListener('online', () => {
+            window.location.href = "https://kiosk-website-localhost.vercel.app";
+        });
+        
+        // Polling check every 5 seconds just in case browser events lag
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.href = "https://kiosk-website-localhost.vercel.app";
+            }
+        }, 5000);
+    </script>
+
+</body>
+</html>
