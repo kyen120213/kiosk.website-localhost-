@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            user-select: none; /* Prevents users from highlighting text on touch screen */
+            user-select: none;
         }
 
         body {
@@ -57,7 +57,7 @@
 
         .status-msg {
             font-weight: 600;
-            color: #d32f2f; /* Red emphasis for IT support */
+            color: #d32f2f;
             margin-bottom: 30px;
         }
 
@@ -98,13 +98,10 @@
     </div>
 
     <script>
-        // Check if the internet connection is back
         function checkConnection() {
             if (navigator.onLine) {
-                // If back online, redirect back to your live Vercel kiosk website
                 window.location.href = "https://kiosk-website-localhost.vercel.app";
             } else {
-                // Visual feedback that the system is trying but still offline
                 const btn = document.querySelector('.retry-btn');
                 const originalText = btn.innerText;
                 btn.innerText = "Checking...";
@@ -118,18 +115,15 @@
             }
         }
 
-        // Keep checking in the background and auto-load the live site if connection returns
         window.addEventListener('online', () => {
             window.location.href = "https://kiosk-website-localhost.vercel.app";
         });
         
-        // Polling check every 5 seconds just in case browser events lag
         setInterval(() => {
             if (navigator.onLine) {
                 window.location.href = "https://kiosk-website-localhost.vercel.app";
             }
         }, 5000);
     </script>
-
 </body>
 </html>
