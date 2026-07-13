@@ -41,7 +41,6 @@
     </main>
 
     <div id="kiosk-overlay" class="overlay">
-        <button class="close-btn" onclick="closeStore()">Back to Directory</button>
         <iframe id="store-frame" src=""></iframe>
     </div>
 
@@ -89,12 +88,6 @@
             }
             document.getElementById('store-frame').src = url;
             document.getElementById('kiosk-overlay').classList.add('active');
-        }
-
-        // Close iframe and return to grid
-        function closeStore() {
-            document.getElementById('kiosk-overlay').classList.remove('active');
-            document.getElementById('store-frame').src = "";
         }
     </script>
 </body>
