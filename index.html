@@ -15,23 +15,28 @@
 
     <main class="grid-container">
         <div class="card" onclick="openStore('https://www.mcdonalds.com')">
-            <img src="https://logo.clearbit.com/mcdonalds.com" alt="McDonald's" onerror="this.src='https://via.placeholder.com/150?text=McDonalds'">
+            <img src="mcdonalds.png" alt="McDonald's" onerror="this.src='https://via.placeholder.com/150?text=McDonalds'">
             <h3>McDonald's</h3>
         </div>
 
         <div class="card" onclick="openStore('https://www.subway.com')">
-            <img src="https://logo.clearbit.com/subway.com" alt="Subway" onerror="this.src='https://via.placeholder.com/150?text=Subway'">
+            <img src="subway.png" alt="Subway" onerror="this.src='https://via.placeholder.com/150?text=Subway'">
             <h3>Subway</h3>
         </div>
 
         <div class="card" onclick="openStore('https://www.starbucks.com')">
-            <img src="https://logo.clearbit.com/starbucks.com" alt="Starbucks" onerror="this.src='https://via.placeholder.com/150?text=Starbucks'">
+            <img src="starbucks.png" alt="Starbucks" onerror="this.src='https://via.placeholder.com/150?text=Starbucks'">
             <h3>Starbucks</h3>
         </div>
 
         <div class="card" onclick="openStore('https://www.dominos.com')">
-            <img src="https://logo.clearbit.com/dominos.com" alt="Domino's" onerror="this.src='https://via.placeholder.com/150?text=Dominos'">
+            <img src="dominos.png" alt="Domino's" onerror="this.src='https://via.placeholder.com/150?text=Dominos'">
             <h3>Domino's</h3>
+        </div>
+
+        <div class="card" onclick="openStore('https://www.google.com/webhp?igu=1')">
+            <img src="google.png" alt="Other Place" onerror="this.src='https://via.placeholder.com/150?text=Other+Place'">
+            <h3>Other Place</h3>
         </div>
     </main>
 
@@ -41,19 +46,45 @@
     </div>
 
     <script>
-        // Check internet connection on startup and every 5 seconds
-        function checkConnection() {
+        // Configuration
+        const PING_URL = 'https://www.google.com/favicon.ico';
+        const PING_INTERVAL = 5000; // Check every 5 seconds
+        const PING_TIMEOUT = 3000;  // Fail if server takes > 3 seconds to respond
+
+        // Function to ping a reliable server
+        async function checkRealInternet() {
             if (!navigator.onLine) {
-                window.location.href = "error.html";
+                goToOfflinePage();
+                return;
+            }
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), PING_TIMEOUT);
+
+            try {
+                await fetch(`${PING_URL}?t=${Date.now()}`, { 
+                    mode: 'no-cors', 
+                    signal: controller.signal 
+                });
+                clearTimeout(timeoutId);
+            } catch (error) {
+                clearTimeout(timeoutId);
+                goToOfflinePage();
             }
         }
-        window.addEventListener('offline', () => window.location.href = "error.html");
-        setInterval(checkConnection, 5000);
+
+        // Directs to local fallback offline.html in C:/kiosk/ if connection drops
+        function goToOfflinePage() {
+            window.location.href = "file:///C:/kiosk/offline.html";
+        }
+
+        window.addEventListener('offline', goToOfflinePage);
+        setInterval(checkRealInternet, PING_INTERVAL);
 
         // Open store website in iframe
-        function openStore(url) {
+        async function openStore(url) {
             if (!navigator.onLine) {
-                window.location.href = "error.html";
+                goToOfflinePage();
                 return;
             }
             document.getElementById('store-frame').src = url;
