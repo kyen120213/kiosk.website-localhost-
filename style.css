@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none; /* Prevents text selection on touch screens */
+}
+
+body {
+    background: #f4f6f9;
+    color: #333;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.kiosk-header {
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.kiosk-header h1 {
+    font-size: 2.5rem;
+    color: #111;
+}
+
+.kiosk-header p {
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Grid Layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+/* Touch-friendly Cards */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+}
+
+.card:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-color: #007aff;
+}
+
+.card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    color: #222;
+}
+
+/* Fullscreen Overlay for Websites */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+}
+
+.overlay.active {
+    display: flex;
+}
+
+iframe {
+    width: 100%;
+    flex-grow: 1;
+    border: none;
+}
+
+/* Massive, easy-to-tap Back Button */
+.close-btn {
+    background: #ff3b30;
+    color: white;
+    border: none;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+.close-btn:active {
+    background: #d32f2f;
+}
+
+/* Error Page Styling */
+.error-container {
+    text-align: center;
+    margin-auto: auto;
+    padding: 40px;
+}
+
+.error-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+}
+
+.retry-btn {
+    margin-top: 30px;
+    padding: 15px 30px;
+    background: #007aff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
