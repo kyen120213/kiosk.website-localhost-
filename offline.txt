@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Offline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="justify-content: center; background: #fdfdfd;">
 
+    <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h2>Kiosk Temporarily Offline</h2>
+        <p style="margin-top: 15px; color: #555; font-size: 1.1rem;">
+            IT Support has been automatically contacted to resolve this issue.
+        </p>
+        <p style="color: #888; font-size: 0.9rem; margin-top: 5px;">
+            Please try again shortly.
+        </p>
+        
+        <button class="retry-btn" onclick="tryReconnect()">Check Connection Again</button>
+    </div>
+
+    <script>
+        // Check if internet came back online
+        function tryReconnect() {
+            if (navigator.onLine) {
+                window.location.href = "index.html";
+            } else {
+                alert("Still offline. IT Support is on the way!");
+            }
+        }
+
+        // Automatically return to main screen if connection snaps back
+        window.addEventListener('online', () => {
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+</html>
